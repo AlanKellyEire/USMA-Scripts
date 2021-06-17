@@ -21,20 +21,20 @@ Download script from here.
 
 On the command line move to the location of the script and run the script
 
-python3 \&lt;download-correlation-rules.py\&gt; \&lt;https://SUBDOMAIN.alienvault.cloud\&gt; \&lt;JSESSIONID\&gt;
+python3 &lt;script.py&gt; &lt;https://SUBDOMAIN.alienvault.cloud&gt; &lt;JSESSIONID&gt;
 
 Example
 
-python3 download-correlation-rules.py https://avsolardemo.alienvault.cloud node0183aejchdef7n1eqnuobnt3lt75256.node0
+python3 download-correlation-rules.py https://demo.alienvault.cloud node0183aejchdef7n1eqnuobnt3lt75256.node0
 
 **Result**
 
 The script should output the rules in TSV format like below.
 
-Rule\_Name Rule Description Rule Type Rule Conditions Mute Strategy Method
+	Rule_Name 	 Rule Description 	 Rule Type 	 Rule Conditions 	 Mute 	 Strategy 	 Method
+	AWSGuardDuty_Backdoor_EC2_Spambot 	 The machine has increased the traffic on port 25, reserved for Simple Mail Transfer Protocol (SMTP). This is a clear indicator of SPAM bot infection. If the machine is compromised, it might be sending out SPAM mails. 	 Correlation Alarm Rule 	 ["plugin_device == 'GuardDuty' and\n                rep_device_rule_id == 'Backdoor:EC2/Spambot' and source_canonical >> [source]"] 	 ['1h'] 	 Suspicious Behavior 	 Possible SPAM Traffic
+	AWSGuardDuty_Backdoor_EC2_CNC_Activity.B.DNS 	 There is an EC2 instance in your AWS environment that is querying a domain name associated with a known command and control server. 	 Correlation Alarm Rule 	 ["plugin_device == 'GuardDuty' and\n                (rep_device_rule_id == 'Backdoor:EC2/C&CActivity.B!DNS' or rep_device_rule_id == 'Backdoor:EC2/C&CActivity.B')and source_canonical >> [source]"] 	 ['1h'] 	 C&C Communication 	 Known command and control server
 
-AWSGuardDuty\_Backdoor\_EC2\_Spambot The machine has increased the traffic on port 25, reserved for Simple Mail Transfer Protocol (SMTP). This is a clear indicator of SPAM bot infection. If the machine is compromised, it might be sending out SPAM mails. Correlation Alarm Rule [&quot;plugin\_device == &#39;GuardDuty&#39; and\n rep\_device\_rule\_id == &#39;Backdoor:EC2/Spambot&#39; and source\_canonical \&gt;\&gt; [source]&quot;] [&#39;1h&#39;] Suspicious Behavior Possible SPAM Traffic
 
-AWSGuardDuty\_Backdoor\_EC2\_CNC\_Activity.B.DNS There is an EC2 instance in your AWS environment that is querying a domain name associated with a known command and control server. Correlation Alarm Rule [&quot;plugin\_device == &#39;GuardDuty&#39; and\n (rep\_device\_rule\_id == &#39;Backdoor:EC2/C&amp;CActivity.B!DNS&#39; or rep\_device\_rule\_id == &#39;Backdoor:EC2/C&amp;CActivity.B&#39;)and source\_canonical \&gt;\&gt; [source]&quot;] [&#39;1h&#39;] C&amp;C Communication Known command and control server
 
 This can then be imported into excel or whatever tool you want to use to analyse or backup the rules.
