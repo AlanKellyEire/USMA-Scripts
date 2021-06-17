@@ -21,11 +21,11 @@ Download script from here.
 
 On the command line move to the location of the script and run the script
 
-python3 &lt;script.py&gt; &lt;https://SUBDOMAIN.alienvault.cloud&gt; &lt;JSESSIONID&gt;
+	python3 <script.py> <https://SUBDOMAIN.alienvault.cloud> <JSESSIONID>
 
 Example
 
-python3 download-correlation-rules.py https://demo.alienvault.cloud node0183aejchdef7n1eqnuobnt3lt75256.node0
+	python3 download-correlation-rules.py https://demo.alienvault.cloud node0000aejchdef7n1eqnuobnt3lt00000.node0
 
 **Result**
 
