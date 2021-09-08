@@ -52,11 +52,11 @@ except:
 
 
 if r.status_code == 200:
-    print("Rule_Name", TAB, "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
+    print("Rule_Name", TAB, TAB, "Rule Intent", "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
 
     data = r.json()
     for i in data:
-        print(i["id"], TAB, "method-definition" in i and i["method-definition"] or "NONE", TAB, "Correlation Alarm Rule", TAB, i["conditions"], TAB, "mute-length" in i and i["mute-length"] or "No Mute Time", TAB, i["strategy"], TAB, i["method"])
+        print(i["id"], TAB, i["intent"], TAB, "method-definition" in i and i["method-definition"] or "NONE", TAB, "Correlation Alarm Rule", TAB, i["conditions"], TAB, "mute-length" in i and i["mute-length"] or "No Mute Time", TAB, i["strategy"], TAB, i["method"])
 else:
     print("ERROR: Request status = " + str(r.status_code))
 
