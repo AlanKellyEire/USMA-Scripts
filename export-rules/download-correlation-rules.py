@@ -52,7 +52,7 @@ except:
 
 
 if r.status_code == 200:
-    print("Rule_Name", TAB, TAB, "Rule Intent", "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
+    print("Rule_Name", TAB, "Rule Intent", TAB, "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
 
     data = r.json()
     for i in data:
