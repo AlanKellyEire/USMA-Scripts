@@ -51,8 +51,10 @@ if r.status_code == 200:
     #get number of pages
     total_page = r.json()['page']['totalPages']
     print("Title", TAB, "ID", TAB, "Severity", TAB, "Status", TAB, "Intent", TAB, "Created", TAB, "Assignee", TAB, "Last Updated", TAB, "Last Updated By", TAB, "UUID")
+    # page count
     c = 0
     while c < total_page:
+        # looping through all the pages and get each investigation.
         url = sys.argv[1] + api_path + '?page=' + str(c)
         cookie['JSESSIONID'] = str(sys.argv[2])
         try:
@@ -67,6 +69,5 @@ if r.status_code == 200:
 
 else:
     print("ERROR: Request status = " + str(r.status_code))
-
 
 
