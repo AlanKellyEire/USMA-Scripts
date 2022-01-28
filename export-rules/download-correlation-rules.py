@@ -1,25 +1,22 @@
 '''
-    File name: download-correlation-rules.py
+    File name: export-investigations.py
     Author: Alan Kelly
     Email: alan.kelly@intl.att.com
-    Date created: 17/06/2021
-    Date last modified: 17/06/2021
-    Description: This script will download correlation rules from a USM Anywhere Instance and return them in TAB Space Value format.
-
-    Usage:
-    python3 download-correlation-rules.py https://SUBDOMAIN.alienvault.cloud JSESSIONID
+    Date created: 22/07/2021
+    Date last modified: 28/01/2022
+    Description: This script will export investigations from a USM Anywhere Instance and return them in TAB Space Value format.
 '''
-
 
 import requests
 import sys
+import datetime
 
 TAB = "\t"
 email="Email"
 
 
 cookie = {'JSESSIONID': ''}
-api_path = '/api/2.0/rulePacks'
+api_path = '/api/2.0/investigations/search/r'
 
 def help():
     print("Script usage:")
@@ -28,7 +25,7 @@ def help():
     print("python3 download-rules.py https://subdomain.alienvault.cloud node065fwtf39oe9dxcxvu1j8v50k54987.node0")
 
 if len(sys.argv) != 3:
-    print("ERROR: Wrong number of arguments. " + str(len(sys.argv)))
+    print("ERROR: Wrong number of arguments." + str(len(sys.argv)))
     help()
     print("Exiting!")
     exit(0)
@@ -50,13 +47,24 @@ except:
     exit(2)
 
 
-
 if r.status_code == 200:
-    print("Rule_Name", TAB, "Rule Intent", TAB, "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
+    #get number of pages
+    total_page = r.json()['page']['totalPages']
+    print("Title", TAB, "ID", TAB, "Severity", TAB, "Status", TAB, "Intent", TAB, "Created", TAB, "Assignee", TAB, "Last Updated", TAB, "Last Updated By", TAB, "UUID")
+    c = 0
+    while c < total_page:
+        url = sys.argv[1] + api_path + '?page=' + str(c)
+        cookie['JSESSIONID'] = str(sys.argv[2])
+        try:
+            r = requests.get(url, cookies=cookie)
+        except:
+            print("ERROR: With Request")
+            exit(2)
+        data = r.json()['_embedded']['investigations']
+        for i in data:
+            print(i['title'], TAB, i['investigationNumber'], TAB, i['severity']['name'], TAB, i['status']['name'], TAB, i['intent']['name'], TAB, datetime.datetime.fromtimestamp(i['created'] / 1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['assignee'], TAB, datetime.datetime.fromtimestamp(i['lastUpdated'] / 1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['lastUpdatedBy'], TAB, i['id'])
+        c += 1
 
-    data = r.json()
-    for i in data:
-        print(i["id"], TAB, i["intent"], TAB, "method-definition" in i and i["method-definition"] or "NONE", TAB, "Correlation Alarm Rule", TAB, i["conditions"], TAB, "mute-length" in i and i["mute-length"] or "No Mute Time", TAB, i["strategy"], TAB, i["method"])
 else:
     print("ERROR: Request status = " + str(r.status_code))
 
