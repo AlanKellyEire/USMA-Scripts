@@ -3,7 +3,7 @@
     Author: Alan Kelly
     Email: alan.kelly@intl.att.com
     Date created: 22/07/2021
-    Date last modified: 22/07/2021
+    Date last modified: 28/01/2022
     Description: This script will export investigations from a USM Anywhere Instance and return them in TAB Space Value format.
 '''
 
@@ -48,10 +48,23 @@ except:
 
 
 if r.status_code == 200:
-    data = r.json()['_embedded']['investigations']
+    #get number of pages
+    total_page = r.json()['page']['totalPages']
     print("Title", TAB, "ID", TAB, "Severity", TAB, "Status", TAB, "Intent", TAB, "Created", TAB, "Assignee", TAB, "Last Updated", TAB, "Last Updated By", TAB, "UUID")
-    for i in data:
-        print(i['title'], TAB, i['investigationNumber'], TAB, i['severity']['name'], TAB, i['status']['name'], TAB, i['intent']['name'], TAB, datetime.datetime.fromtimestamp(i['created']/1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['assignee'], TAB, datetime.datetime.fromtimestamp(i['lastUpdated'] / 1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['lastUpdatedBy'], TAB, i['id'])
+    c = 0
+    while c < total_page:
+        url = sys.argv[1] + api_path + '?page=' + str(c)
+        cookie['JSESSIONID'] = str(sys.argv[2])
+        try:
+            r = requests.get(url, cookies=cookie)
+        except:
+            print("ERROR: With Request")
+            exit(2)
+        data = r.json()['_embedded']['investigations']
+        for i in data:
+            print(i['title'], TAB, i['investigationNumber'], TAB, i['severity']['name'], TAB, i['status']['name'], TAB, i['intent']['name'], TAB, datetime.datetime.fromtimestamp(i['created'] / 1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['assignee'], TAB, datetime.datetime.fromtimestamp(i['lastUpdated'] / 1000.0).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3], TAB, i['lastUpdatedBy'], TAB, i['id'])
+        c += 1
+
 else:
     print("ERROR: Request status = " + str(r.status_code))
 
