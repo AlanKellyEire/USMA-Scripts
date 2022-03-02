@@ -38,3 +38,5 @@ The script should output the rules in TSV format like below.
 
 
 This can then be imported into excel or whatever tool you want to use to analyse or backup the rules.
+
+
