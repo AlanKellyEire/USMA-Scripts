@@ -3,7 +3,7 @@
     Author: Alan Kelly
     Email: alan.kelly@intl.att.com
     Date created: 17/06/2021
-    Date last modified: 17/06/2021
+    Date last modified: 02/08/2021
     Description: This script will download correlation rules from a USM Anywhere Instance and return them in TAB Space Value format.
 
     Usage:
@@ -52,13 +52,10 @@ except:
 
 
 if r.status_code == 200:
-    print("Rule_Name", TAB, "Rule Intent", TAB, "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method")
+    print("Rule_Name", TAB, "Rule Intent", TAB, "Rule Description", TAB, "Rule Type", TAB, "Rule Conditions", TAB, "Mute", TAB, "Strategy", TAB, "Method", TAB, "Mitre Attack ID")
 
     data = r.json()
     for i in data:
-        print(i["id"], TAB, i["intent"], TAB, "method-definition" in i and i["method-definition"] or "NONE", TAB, "Correlation Alarm Rule", TAB, i["conditions"], TAB, "mute-length" in i and i["mute-length"] or "No Mute Time", TAB, i["strategy"], TAB, i["method"])
+        print(i["id"], TAB, i["intent"], TAB, "method-definition" in i and i["method-definition"] or "NONE", TAB, "Correlation Alarm Rule", TAB, i["conditions"], TAB, "mute-length" in i and i["mute-length"] or "No Mute Time", TAB, i["strategy"], TAB, i["method"], TAB, i["attack_id"])
 else:
     print("ERROR: Request status = " + str(r.status_code))
-
-
-
