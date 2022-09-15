@@ -1,10 +1,10 @@
 '''
-    File name: download-orchestration-rules.py
+    File name: export-users.py
     Author: Alan Kelly
     Email: alan.kelly@intl.att.com
-    Date created: 09/06/2021
-    Date last modified: 09/06/2021
-    Description: This script will download orchestration rules from a USM Anywhere Instance and return them in TAB Space Value format.
+    Date created: 13/09/2022
+    Date last modified: 
+    Description: This script will download all users on an USM Anywhere Instance and return them in TAB Space Value format.
 '''
 
 import requests
